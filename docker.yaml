@@ -1,0 +1,30 @@
+#cloud-config
+
+## Add your public keys for easy access
+# ssh_authorized_keys:
+#   - ssh-rsa ... 
+
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
+
+manage-resolv-conf: true
+resolv_conf:
+  nameservers:
+    - '8.8.8.8'
+    - '8.8.4.4'
+
+packages:
+  - curl
+  - openssh-server
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg-agent
+  - software-properties-common
+  - jq
+
+runcmd:
+  - curl -fsSL https://get.docker.com | sudo sh -
+  - systemctl enable docker && systemctl start docker
+  - usermod -aG docker multipass
